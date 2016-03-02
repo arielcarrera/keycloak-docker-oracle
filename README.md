@@ -7,6 +7,7 @@ Keycloak Docker image to use with an external Oracle database (Extends the Keycl
 - Oracle 11 DB installed and running.
 - Download and copy the oracle 'ojdbc6.jar' driver and locate it in the root directory beside the dockerfile.
 - A local docker registry installed and running on port 5000.
+- docker network configured to access with the name oracle-db to the oracle db server (you can install or use rancher to achieve that)
 
 ## Usage
 
@@ -26,13 +27,13 @@ Keycloak Docker image to use with an external Oracle database (Extends the Keycl
 
 Start a Keycloak instance and connect to the ORACLE instance:
 
-    docker run --name keycloak -e ORACLE_TCP_ADDR=kcdbaddr localhost:5000/keycloak-oracle
+    docker run --name keycloak --link oracle-db:oracle-db -e ORACLE_TCP_ADDR=kcdbaddr localhost:5000/keycloak-oracle
 
 ### Environment variables
 
 When starting the Keycloak instance you can pass a number of environment variables to configure how it connects to ORACLE. For example:
 
-    docker run --name keycloak --link oracle:oracle -e ORACLE_TCP_ADDR=kcdbaddr -e ORACLE_DATABASE=kcdb -e ORACLE_USER=kcuser -e ORACLE_PASSWORD=kcpassword localhost:5000/keycloak-oracle
+    docker run --name keycloak --link oracle-db:oracle-db -e ORACLE_TCP_ADDR=kcdbaddr -e ORACLE_DATABASE=kcdb -e ORACLE_USER=kcuser -e ORACLE_PASSWORD=kcpassword localhost:5000/keycloak-oracle
 
 #### ORACLE_DATABASE
 
